@@ -1,145 +1,109 @@
-\section{EXPERIMENTS AND RESULTS}
+\section{EXPERIMENTS AND RESULTS}\label{4_experiment}
+We have run a number of experiments based on several common real world scenarios, and we compared our approach with other popular methods through the experimentation:
 \begin{itemize}
-\item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as ``3.5-inch disk drive''.
-\item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
-\item Do not mix complete spellings and abbreviations of units: ``Wb/m\textsuperscript{2}'' or ``webers per square meter'', not ``webers/m\textsuperscript{2}''. Spell out units when they appear in text: ``. . . a few henries'', not ``. . . a few H''.
-\item Use a zero before decimal points: ``0.25'', not ``.25''. Use ``cm\textsuperscript{3}'', not ``cc''.)
+    \item How effective MVRec performs in $Pure$ $Cold$ recommendation tasks. i.e. new product release, target audience prediction.
+    \item How effective When MVRec handle $Sparse$ dataset, in common recommendation tasks
+    \item How dose MVRec compare with other state-of-the-art methods
+    \item illustrate the adaptiveness of MVRec 
 \end{itemize}
 
-\subsection{g}
-Number equations consecutively. To make your 
-equations more compact, you may use the solidus (~/~), the exp function, or 
-appropriate exponents. Italicize Roman symbols for quantities and variables, 
-but not Greek symbols. Use a long dash rather than a hyphen for a minus 
-sign. Punctuate equations with commas or periods when they are part of a 
-sentence, as in:
-\begin{equation}
-a+b=\gamma\label{eq}
-\end{equation}
+\subsection{Data Set}
+Our experiments is based on HetRec 2011 \cite{CantadorRecSys2011} data set, which is a extension of MovieLens10M data enriched with content data collected from IMDb and Rotten Tomatoes.
 
-Be sure that the 
-symbols in your equation have been defined before or immediately following 
-the equation. Use ``\eqref{eq}'', not ``Eq.~\eqref{eq}'' or ``equation \eqref{eq}'', except at 
-the beginning of a sentence: ``Equation \eqref{eq} is . . .''
-
-\subsection{\LaTeX-Specific Advice}
-
-Please use ``soft'' (e.g., \verb|\eqref{Eq}|) cross references instead
-of ``hard'' references (e.g., \verb|(1)|). That will make it possible
-to combine sections, add equations, or change the order of figures or
-citations without having to go through the file line by line.
-
-Please don't use the \verb|{eqnarray}| equation environment. Use
-\verb|{align}| or \verb|{IEEEeqnarray}| instead. The \verb|{eqnarray}|
-environment leaves unsightly spaces around relation symbols.
-
-Please note that the \verb|{subequations}| environment in {\LaTeX}
-will increment the main equation counter even when there are no
-equation numbers displayed. If you forget that, you might write an
-article in which the equation numbers skip from (17) to (20), causing
-the copy editors to wonder if you've discovered a new method of
-counting.
-
-{\BibTeX} does not work by magic. It doesn't get the bibliographic
-data from thin air but from .bib files. If you use {\BibTeX} to produce a
-bibliography you must send the .bib files. 
-
-{\LaTeX} can't read your mind. If you assign the same label to a
-subsubsection and a table, you might find that Table I has been cross
-referenced as Table IV-B3. 
-
-{\LaTeX} does not have precognitive abilities. If you put a
-\verb|\label| command before the command that updates the counter it's
-supposed to be using, the label will pick up the last counter to be
-cross referenced instead. In particular, a \verb|\label| command
-should not go before the caption of a figure or a table.
-
-Do not use \verb|\nonumber| inside the \verb|{array}| environment. It
-will not stop equation numbers inside \verb|{array}| (there won't be
-any anyway) and it might stop a wanted equation number in the
-surrounding equation.
-
-\subsection{Some Common Mistakes}\label{SCM}
-\begin{itemize}
-\item The word ``data'' is plural, not singular.
-\item The subscript for the permeability of vacuum $\mu_{0}$, and other common scientific constants, is zero with subscript formatting, not a lowercase letter ``o''.
-\item In American English, commas, semicolons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
-\item A graph within a graph is an ``inset'', not an ``insert''. The word alternatively is preferred to the word ``alternately'' (unless you really mean something that alternates).
-\item Do not use the word ``essentially'' to mean ``approximately'' or ``effectively''.
-\item In your paper title, if the words ``that uses'' can accurately replace the word ``using'', capitalize the ``u''; if not, keep using lower-cased.
-\item Be aware of the different meanings of the homophones ``affect'' and ``effect'', ``complement'' and ``compliment'', ``discreet'' and ``discrete'', ``principal'' and ``principle''.
-\item Do not confuse ``imply'' and ``infer''.
-\item The prefix ``non'' is not a word; it should be joined to the word it modifies, usually without a hyphen.
-\item There is no period after the ``et'' in the Latin abbreviation ``et al.''.
-\item The abbreviation ``i.e.'' means ``that is'', and the abbreviation ``e.g.'' means ``for example''.
-\end{itemize}
-An excellent style manual for science writers is \cite{b7}.
-
-\subsection{Authors and Affiliations}
-\textbf{The class file is designed for, but not limited to, six authors.} A 
-minimum of one author is required for all conference articles. Author names 
-should be listed starting from left to right and then moving down to the 
-next line. This is the author sequence that will be used in future citations 
-and by indexing services. Names should not be listed in columns nor group by 
-affiliation. Please keep your affiliations as succinct as possible (for 
-example, do not differentiate among departments of the same organization).
-
-\subsection{Identify the Headings}
-Headings, or heads, are organizational devices that guide the reader through 
-your paper. There are two types: component heads and text heads.
-
-Component heads identify the different components of your paper and are not 
-topically subordinate to each other. Examples include Acknowledgments and 
-References and, for these, the correct style to use is ``Heading 5''. Use 
-``figure caption'' for your Figure captions, and ``table head'' for your 
-table title. Run-in heads, such as ``Abstract'', will require you to apply a 
-style (in this case, italic) in addition to the style provided by the drop 
-down menu to differentiate the head from the text.
-
-Text heads organize the topics on a relational, hierarchical basis. For 
-example, the paper title is the primary text head because all subsequent 
-material relates and elaborates on this one topic. If there are two or more 
-sub-topics, the next level head (uppercase Roman numerals) should be used 
-and, conversely, if there are not at least two sub-topics, then no subheads 
-should be introduced.
-
-\subsection{Figures and Tables}
-\paragraph{Positioning Figures and Tables} Place figures and tables at the top and 
-bottom of columns. Avoid placing them in the middle of columns. Large 
-figures and tables may span across both columns. Figure captions should be 
-below the figures; table heads should appear above the tables. Insert 
-figures and tables after they are cited in the text. Use the abbreviation 
-``Fig.~\ref{fig}'', even at the beginning of a sentence.
-
-\begin{table}[htbp]
-\caption{Table Type Styles}
+First, we prune the data. For movies, we only picks the movie with at least 10 distinctive user views. we also limit top 3 actors/actresses to be associated. In terms of Tags, we are only use tags information which being share by more than 1 movies. In the end, we concluded 6 different types of $node$ which can be used in heterogeneous information graph, shown as following:
+% # users: 2113, # movies: 6829, # medium rating: 3.5, # ratings: 841910, #tags: 2356, # actors: 9295, # directors: 2762 # genres: 19
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
-\cline{2-4} 
-\textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
-\hline
-copy& More table copy$^{\mathrm{a}}$& &  \\
-\hline
-\multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
-\end{tabular}
-\label{tab1}
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+     \textbf{Node Type} & \textbf{Unique Number} \\ \hline
+     Users &  2113\\ \hline
+     Movies &   6829 \\ \hline
+     Tags &  2356 \\ \hline
+     Actors &  22256 \\ \hline
+     Directors &  2762 \\ \hline
+     Genres &  19 \\ \hline
+    \end{tabular}
 \end{center}
-\end{table}
 
-\begin{figure}[htbp]
-\centerline{\includegraphics{fig1.png}}
-\caption{Example of a figure caption.}
-\label{fig}
-\end{figure}
+Additionally, following 5 relationships is defined as edges, which are $Movie-Users$, $Movie-Tags$, $Movie-Actors$, $Movie-Directors$, and $Movie-Genres$:
 
-Figure Labels: Use 8 point Times New Roman for Figure labels. Use words 
-rather than symbols or abbreviations when writing Figure axis labels to 
-avoid confusing the reader. As an example, write the quantity 
-``Magnetization'', or ``Magnetization, M'', not just ``M''. If including 
-units in the label, present them within parentheses. Do not label axes only 
-with units. In the example, write ``Magnetization (A/m)'' or ``Magnetization 
-\{A[m(1)]\}'', not just ``A/m''. Do not label axes with a ratio of 
-quantities and units. For example, write ``Temperature (K)'', not 
-``Temperature/K''.
+\begin{center}
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+     \textbf{Edge Type} & \textbf{Total Number} \\ \hline
+     $Movie-Users$ &  841910\\ \hline
+     $Movie-Tags$ &   9362 \\ \hline
+     $Movie-Actors$ &  2356 \\ \hline
+     $Movie-Directors$ &  6893 \\ \hline
+     $Movie-Genres$ &  15119 \\ \hline
+    \end{tabular}
+\end{center}
+
+For the simplicity of the experiment, we weigh all of our meta-path equally, as it is sufficient in illustrating the effectiveness of MVRec. On the other hand, we do acknowledge that, those hyper-parameters can be further tuned to improve the result to tailor different problem domains. 
+
+
+\subsection{Pure cold start: MVRec + Pearson CorrelationCoefficient (PCC)}
+When it comes to $Pure$ $Cold$ start problem, it means, new items are being recommended to users which had never seen before. as a result are are splitting our data set based on time.
+we use movies prior 2008 as training data set (6724 movies), and 2008~2011 as testing data set (193 movies). Here we compare MVRec with Content-Based (C.B.) recommendation, since CF approach will be very limited when there is no user-item interactions available.
+
+The choice of meta-path in this experiment are: $Movie-Tags-Movie$, $Movie-Actors-Movie$, $Movie-Directors-Movie$, and $Movie-Genres-Movie$. We only choose feature related meta-path. By doing this way, we can not only can demonstrate MERec produces superior Precision and Recall. It also shows meta-path based movie content representation are more effective when dealing with large amount of categorical data. 
+We also ran a separate experiment to add $Movie-Users-Movie$ meta-path as part of embedding process. we can see the result comparison as below:
+
+\begin{strip}
+    \textbf{pure cold start recommendation}
+    \begin{center}
+    \begin{tabular}{|c | c | c | c | c | c | c|} \hline
+
+    \textbf{Model} & \textbf{Precision\@1} & \textbf{Recall@1} & \textbf{Precision@5} & \textbf{Recall@5} & \textbf{Precision@10} & \textbf{Recall@10} \\ \hline
+    \text{C.B.} &  0.1390 & 0.0027 & 0.1229 & 0.0146 & 0.1481 & 0.0334 \\ \hline
+    \text{MVRec+PCC} & \textbf{0.3743} & 0.0087 & 0.2770 & 0.0350 & 0.2465 & 0.0604\\ \hline
+    \text{MVRec+PCC (incl. interactions)} & 0.34759 &  \textbf{0.0096} &  \textbf{0.3037} &  \textbf{0.0402} &  \textbf{0.2711} &  \textbf{0.0665} \\ \hline
+    \end{tabular}
+\end{center}
+    
+\end{strip}
+Here we can observe a further improved to the end result, after including past user-item interaction into the embedding process.
+
+
+\subsection{Cold start with Sparse data: MVRec + BPR}
+In this section we are going to split data into 2 different density distribution to evaluate the effectiveness of MVRec performance in both sparse and dense dataset. we also compares it with CF+BPR, which is being one of the most popular and effective algorithms.
+
+First we split our dataset into 2 different random split portions: In sparse data scenarios, the data density set to be \text{1.1\%}, while in non-sparse experiment settings, the density is set at \text{2.3\%}
+
+the comparison result are shown as flowing, In sparse data cases, we can see in average near 10\% performance boost in precision. While in non-sparse cases, we can still see equivalent or minor enhancement across precision and recall:
+
+
+\begin{strip}
+    \textbf{sparse data recommendation}
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|l|l|l|}
+        \hline
+    
+    \textbf{Model} & \textbf{Precision\@1} & \textbf{Recall@1} & \textbf{Precision@5} & \textbf{Recall@5} & \textbf{Precision@10} & \textbf{Recall@10} \\ \hline
+         \text{CF+BPR (sparse)} &  0.6146 & \textbf{0.0039} & 0.5498 & 0.0126 & 0.5548 & 0.0265 \\ \hline
+         \text{MVRec+BPR (sparse)} & \textbf{0.6616} & 0.0036 & \textbf{0.6194} & \textbf{0.0163} & \textbf{0.6035} & \textbf{0.0308}\\ \hline
+        \end{tabular}
+    \end{center}
+    
+\end{strip}
+
+\begin{strip}
+    \textbf{dense data recommendation}
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|l|l|l|}
+        \hline
+    
+    \textbf{Model} & \textbf{Precision\@1} & \textbf{Recall@1} & \textbf{Precision@5} & \textbf{Recall@5} & \textbf{Precision@10} & \textbf{Recall@10} \\ \hline
+         \text{CF+BPR (dense)} & 0.4936 & 0.0027 & 0.5566 & 0.0175 & 0.5419 & 0.0336 \\ \hline
+         \text{MVRec+BPR (dense)} & \textbf{0.6720} & \textbf{0.0046} & \textbf{0.5858} & \textbf{0.0195} & \textbf{0.5575} & \textbf{0.0355} \\ \hline
+        \end{tabular}
+    \end{center}
+\end{strip}
+
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 \section{Methodology}
-Most of the time, different business have unique data characteristics. To build a recommender system, especially, require customized algorithm for model tuning.  Having a sound business domain knowledge is a key to better using its data, creating the performant prediction model. In this paper, we propose a framework MER (meta-path embedding based Recommendation) that allow recommendation models to learn item features embedding by adapting custom domain knowledge in a generic way. 
+Most of the time, different business have unique data characteristics. To build a recommender system, especially, require customized algorithm for model tuning.  Having a sound business domain knowledge is very helpful in better using its data, creating the performant prediction model. In this paper, we propose a framework MVRec (meta-path embedding based Recommendation) that allow recommendation models to learn item features embedding by adapting custom domain knowledge in a generic way. 
 
 \begin{figure*}[!t]
     \centering
@@ -17,7 +17,7 @@ One of the key idea of our approaches is inspired by recent research on graph-ba
 Consequently, as the item embedding is learned based on item features rather than depending on user-item interactions. This allows model to handle cold start problem and data sparsity problem effectively. 
 
 \subsection{Problems and Definitions}\label{3PD}
-Following definitions are used for describe our approach xxx.
+Following definitions are used for describe our approach MVRec.
 
 \begin{definition}[Heterogeneous Information Graph]
 A information graph is $G = (V,E)$, where $V$ is the set of nodes (or entities) of the graph. $E$ is the set of edges connecting the nodes in $V$, $E \subset V \times V$. \newline
@@ -42,8 +42,6 @@ Meta-Path $\mathcal{P}_1: A_1 \xrightarrow{r_1} A_2$ is the Meta-Path connects s
 Similarly, $\mathcal{P}_2: A_2 \xrightarrow{r_2} A_3$, $\mathcal{P}_2$ is the Meta-Path between source entity type $A_\text{2}$ and target entity type $A_\text{3}$.
 Here we call $\mathcal{P}_1$ and $\mathcal{P}_2$ are contactable. Then $\mathcal{P}_1$ and $\mathcal{P}_2$ can be combined as $\mathcal{P}_{1,2}: A_1 \xrightarrow{r_1} A_2 \xrightarrow{r_2} A_3$. For example, $Movie \rightarrow Director$ and $Director \rightarrow Movie$ can be combined to $Movie \rightarrow Director \leftarrow Movie$. 
 
-TBC...
-
 \subsection{Meta-path Based Random Walk}\label{3MF}
 
 For items such as movies, books, music, there are a number of factors impacting users' decision. 
@@ -58,19 +56,19 @@ as a result, item-item similarity score can be calculated by normalized meta-pat
 \begin{equation}\label{itemsim}
     \mathcal{S}(v_i,v_j) = 
     \begin{cases}
-         \sum\limits_{\substack{n=1}}^{n} \mathcal{R}_ij(\mathcal{P}_n,{W_n}),& \text{if } (v_{i}, v_{j}) \in E \\
+         \sum\limits_{\substack{n=1}}^{n} \mathcal{R}_ij(\mathcal{P}_n,{W_n}),& \text{if } (v_{i}, .., v_{j}) \in \mathcal{P} \\
          0,              & \text{otherwise}
      \end{cases}
 \end{equation}
 
-$\mathcal{S}(v_i,v_j)$ stands for similarity between items $v_i$ and $v_j$. $R_ij()$ is a similarity function, where $\mathcal{P}_n, {W_n}$ stands for individual meta-path and its weights respectively. This end result provides guidance for the random walkers on our heterogeneous graph of item features. 
+$\mathcal{S}(v_i,v_j)$ stands for similarity between items $v_i$ and $v_j$ which shares the same node type. $R_ij()$ is a similarity function, where $\mathcal{P}_n, {W_n}$ stands for individual meta-path and its weights respectively. This end result provides guidance for the random walkers on our heterogeneous graph of item features. $(v_{i}, .., v_{j})$ is denoted as a meta-path instance, where $v_i$ is the starting node and $v_j$ the end node.
 
 Given a heterogeneous graph $G = (V,E)$, and a meta-path set $[\mathcal{P}_1, \mathcal{P}_2, ... \mathcal{P}_n]$, the probability of transition is defined as following:
 
 \begin{equation}\label{hetewalker}
     P(v_{i+1},\mathcal{P},w)= 
         \begin{cases}
-            p({N^{t+1}(v_{i}^t)}),& \text{if } (v_{i+1}, v_{i}^t) \in E \\
+            p({N^{t+1}(v_{i}^t)}),& \text{if } (v_{i+1}, .., v_{i}^t) \in \mathcal{P} \\
             0,              & \text{otherwise}
         \end{cases}
 \end{equation}
@@ -93,5 +91,80 @@ we enable skip-gram to learn the presentation of given node $v$:
 \end{equation}
 
 $log p({c|v;\theta}))$ is the softmax function as defined in \cite{mikolov2013distributed} \cite{mikolov2013efficient}. In our approach, we substitute $log p({c|v;\theta}))$ with softmax function defined in equation \ref{softmaxwalker}. $c$ is denoted as $context$, in graph structure setting, $c$ is the neighboring nodes of given node $v$, i.e. $N(v)$. 
+
+Finally, we introduce 3 hyper parameters to learn the item vector representation. $d$ for dimension size, $x$ for number of walks, and $l$ for depth of each random walk. 
+
+
+\subsection{Pure Cold Start: MVRec-PCC}\label{3PCC}
+One of common real world recommendation scenario is recommending new item to potential audiences/customers. For example, product launch, movie premier. Listings portal, such as, job listings (e.g. LinkedIn) and real estate listings (Zillow) faces constant pure cold start problem, where historical user-item interaction is not available to learn. 
+
+In order to solve pure cold start problem, commonly feature based (content based) are one of limited way to make recommendation. 
+Additionally, we adopt Pearson Correlation Coefficient (PCC) to be in combination with MVRec through the recommendation process. 
+PCC is a popular measurement approach as defined in equation \ref{pcc}, unlike Cosine Similarity, PCC takes the difference of mean and variance between users' rating scale into account.
+
+\begin{strip}
+    \begin{equation}\label{pcc}
+        S_{u_i,u_j}^{PCC} = 
+        \dfrac{
+            \sum_{v \in V_{u_i} \cap V_{u_j}} (r_{u_i,v}-\overline{r_{u_i}}) 
+            * 
+            (r_{u_j,v} - \overline{r_{u_j}})
+        }
+        {
+            \sqrt{\sum_{v \in V_{u_i} \cap V_{u_j}} (r_{u_i,v}-\overline{r_{u_i}})^2} 
+            * 
+            \sqrt{\sum_{v \in V_{u_i} \cap V_{u_j}} (r_{u_j,v}-\overline{r_{u_j}})^2}
+        }
+    \end{equation}
+\end{strip}
+
+accordingly, we can normalized the user-item rating based on normalized user rating $\overline{u}$ overall:
+\begin{equation}\label{pcc}
+    NS(r_{u_i,v_j}) =  S_{u_i,\overline{u}}^{PCC}
+\end{equation}
+
+Consequently, we get the top ranked user by calculating as following:
+
+\begin{algorithm}
+    \caption{ranked users list}
+    \begin{algorithmic}[1] 
+    \REQUIRE~~\\ %Input
+    New Item: $v$\\
+    Existing user item ratings: ${R_{mxn}}$\\
+    Items vectors: $\mathcal{V}$\\
+    Top X nearest items: $X$\\
+    Top K ranked users list rank: $K$\\
+    \ENSURE~~\\ %Output
+    \STATE Compute nearest items $TopN(v,\mathcal{V})$ based on $\mathcal{V}$ and $v$
+    \STATE \textbf{for} x=1 : X
+    \STATE \quad Compute normalized rating per user of $v_x$
+    \STATE \quad Ranked users $RankedList(v_x) \leftarrow (u_i, NS(r_{u_i,v_x}))$
+    \STATE \quad $TopKList(v) \leftarrow$ Top $K$ (user,rating) in $RankedList(v_x)$
+    \STATE $RankedList(v)$ = \textbf{from} $TopKList(v)$ \textbf{group by} user \textbf{select} (user,$\sum{rating}$) \textbf{order by} $\sum{rating}$
+    \RETURN Top K of $RankedList(v)$
+    \end{algorithmic}\label{alg:1}
+\end{algorithm}
+
+In Section \ref{4_experiment}, we would show more detailed comparison results with traditional categorical one-hot encoding approach
+
+\subsection{Sparse Recommendation: MVRec-BPR}\label{3BPR}
+One of the other common cold start problem, that we commonly facing is sparse data. Matrix Factorization or CF based approach, try to learn user and item presentation (i.e. $U, V$) in a latent space jointly, normally suffers from data sparsity problem.
+
+
+Here we propose, instead of learning $U, V$ jointly, we replace $V$ with meta-path based vectors $Vec(v)$. This approach provides several benefits:
+\begin{enumerate}
+        \item Reducing learning complexities
+        \item Taking both item features and user-item interactions into account
+        \item $Vec(v)$ is less impacted when user-item interactions are sparse 
+\end{enumerate}
+
+We use BPR as our optimization objective:
+
+\begin{equation}\label{skipgram}
+    arg max (u_i \cdot Vec(v)-u_j \cdot Vec(v)) - \dfrac{\lambda}{2}tr(U^TU)
+\end{equation}
+
+
+Based on the experiment result in Section \ref{4_experiment}, we see MVRec out performs widely used CF+ BPR by a large margin in sparse dataset. It also gained equivalent or minor advantage when the dataset is less sparse in non-cold start settings.
 
 
