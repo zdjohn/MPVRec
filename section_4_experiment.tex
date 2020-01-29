@@ -42,7 +42,7 @@ Additionally, following 5 relationships is defined as edges, which are $Movie-Us
 For the simplicity of the experiment, we weigh all of our meta-path equally, as it is sufficient in illustrating the effectiveness of MVRec. On the other hand, we do acknowledge that, those hyper-parameters can be further tuned to improve the result to tailor different problem domains. 
 
 
-\subsection{Pure cold start: MVRec + Pearson CorrelationCoefficient (PCC)}
+\subsection{Pure cold start: MVRec + Pearson Correlation Coefficient (PCC)}
 When it comes to $Pure$ $Cold$ start problem, it means, new items are being recommended to users which had never seen before. as a result are are splitting our data set based on time.
 we use movies prior 2008 as training data set (6724 movies), and 2008~2011 as testing data set (193 movies). Here we compare MVRec with Content-Based (C.B.) recommendation, since CF approach will be very limited when there is no user-item interactions available.
 

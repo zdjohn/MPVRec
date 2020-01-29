@@ -1,11 +1,47 @@
 \section{Background}
+In this section, we are going to review key research building blocks that inspired our paper. Graph based presentation learning and Collaborative Filtering (CF) in Recommender systems
 
-\subsection{Maintaining the Integrity of the Specifications}
 
-The IEEEtran class file is used to format your paper and style the text. All margins, 
-column widths, line spaces, and text fonts are prescribed; please do not 
-alter them. You may note peculiarities. For example, the head margin
-measures proportionately more than is customary. This measurement 
-and others are deliberate, using specifications that anticipate your paper 
-as one part of the entire proceedings, and not as an independent document. 
-Please do not revise any of the current designations.
+\subsection{Preliminary Definitions}\label{3PD}
+Following definitions are used for describe our approach.
+
+\begin{definition}[Heterogeneous Information Graph]
+A information graph is $G = (V,E)$, where $V$ is the set of nodes (or entities) of the graph. $E$ is the set of edges connecting the nodes in $V$, $E \subset V \times V$. \newline
+Two mapping functions: Entity type mapping function $\phi$: $V \rightarrow A$, and link type mapping function $\varphi$: $E \rightarrow R$, where $A$ and $R$ denote the sets of predefined entity and link types, and $|A| > 1$ or $|R| > 1$ indicating that there are more than one type.
+\end{definition}
+
+For example, we use movie attribute information to enrich user-item ratings in Movielens data set using graph model as shown in Fig. %\ref{fig:enrich}
+In this paper we use \textit{``actors'', ``director'', ``writer'', ``genre''} etc. as different types of nodes. These nodes are in the same graph of user nodes and item nodes. How to process with different nodes in one graph? Graph schema indicates how different types of entities link with each other. It serves as a template to describe the structure as well as the semantic relationship between object types.
+
+Between two entities $x$ and $y$, there are different paths connecting the two nodes. As for the case of Movielens, \textit{MovieA} and \textit{MovieB} can be connected via \textit{MovieA-Actor-MovieB} or \textit{MovieA-Director-MovieB} or \textit{MovieA-User-MovieB} path connections. We call those path, which containing multiple entities, Meta-Path.
+
+\begin{definition}[Meta-Path]\label{def:metaPath}
+A Meta-Path $\mathcal{P}$ is a path defined on the  graph schema $T_G = (A, R)$. \newline
+Meta-Path $\mathcal{P}$ is denoted as $A_1 \xrightarrow{\text{r1}} A_2 \xrightarrow{\text{r2}} ... \xrightarrow{\text{rn}} A_n$. 
+
+Relationship $R$ is denoted as $r1 \bullet r2 \bullet ... rn$ for different types of relationship between different types of entity nodes, where $\bullet $ denotes composition operator or relations.
+\end{definition}
+
+For Meta-Path $\mathcal{P}_i$ shares same graph schema, there could also be multiple path $p$ connecting source entity $a_i$ to target ${a}_{i+1}$. Each path $p$ inside Meta-Path $\mathcal{P}_i$ is a path instance, $p \in \mathcal{P}_i$. The number of path instances $p$ between $a_i$ and $\bm{a}_\text{i+1}$, is called path count. Reverse Meta-Path $\mathcal{P}^{'}$ is the reversed relation sequence of $\mathcal{P}_i$, if $\mathcal{P}^{'}$ is the reverse path of $\mathcal{P}$ in $T_G = (A, R)$, reverse path is denoted as $\mathcal{P}^\text{-1}$. \newline
+
+Meta-Path $\mathcal{P}_1: A_1 \xrightarrow{r_1} A_2$ is the Meta-Path connects source entity type $A_1$ and target $A_2$.
+Similarly, $\mathcal{P}_2: A_2 \xrightarrow{r_2} A_3$, $\mathcal{P}_2$ is the Meta-Path between source entity type $A_\text{2}$ and target entity type $A_\text{3}$.
+Here we call $\mathcal{P}_1$ and $\mathcal{P}_2$ are contactable. Then $\mathcal{P}_1$ and $\mathcal{P}_2$ can be combined as $\mathcal{P}_{1,2}: A_1 \xrightarrow{r_1} A_2 \xrightarrow{r_2} A_3$. For example, $Movie \rightarrow Director$ and $Director \rightarrow Movie$ can be combined to $Movie \rightarrow Director \leftarrow Movie$. 
+
+\begin{definition}[Matrix Factorization]\label{def:mfdf}
+    Represent users and items in a lower dimensional latent space with $U$ and $V$, The $U$ and $V$ can be seen as decomposition of user-item interaction matrix $\mathbb{R} (m \times n)$. where we try to optimise $U$ and $V$ to close to $\mathbb{R} \sim U \cdot V^t$. 
+\end{definition}
+Matrix Factorization simplifies complex matrix operations, so that can be performed on the decomposed matrix rather than on the original matrix itself.
+
+\subsection{Related Research}
+Graph based presentation learning is a actively research area in recent year. A lot of the research result is adopted in areas such as node classification, clustering, and similarity search. As intuitively, objects similarity can be measured based on node distance and density of given graph/sub-graph. Studies such as P-PageRank \cite{bahmani2010fast}, SimRank \cite{jeh2002simrank}, leverage homogeneous network structures. While research like PathSim \cite{sun2011pathsim}, HeteSim \cite{shi2014hetesim} manages to taking different types of objects and links in to data mining process, so that different semantic meaning across different types of nodes can be learned respectively. 
+With the advancement of NLP research, word embedding approach in particular. Word2Vec \cite{mikolov2013efficient} methodology gets introduced into node presentation learning. It helps in solving graph data structure complex problem, such as, node2vec \cite{grover2016node2vec} by adopting CBOW and SkipGram into random walk process. However, one drawbacks, for approaches like node2vec is, the embedding result are more biased towards highly connected nodes, in a unevenly distributed graph. subsequently, Metapath2Vec \cite{dong2017metapath2vec} introduced a guided random walk approach to help reduce the bias of random walk, by introducing a set of predefined meta-path. 
+
+Collaborative Filtering based recommendation approach is still the dominant player in the recommendation solutions as we've seen since `The Netflix Prize' \cite{bennett2007netflix}. Memory based CF user/item similarity base on user-item interactions. Then based on similarity measure, for example Pearson correlation or vector cosine similarity are commonly being used to derive recommendation predictions though a aggregated nearest neighbor mechanism. In order to reduce the data sparsity and scalability problem. Model based CF is being used by projecting user/item features into a lower dimension latent space by leveraging data mining techniques or learning algorithm. item/user similarity is computed based on latent features values. approach such as  item2vec \cite{Barkan2016} belongs to this category. Factorization Machine \cite{rendle2010factorization} based learning approach such as Bayesian Personal Ranking (BPR) \cite{rendle2012bpr} are commonly used through the learning process. 
+
+As knowledge graph and especially Graph Neural Networks gaining traction in recent years research \cite{wu2019comprehensive}. There is a number of heterogenous graph based techniques being used in recommendation problems. such as, entity2vec \cite{palumbo2017entity2rec}. and HErec \cite{shi2018heterogeneous}. 
+
+To our knowledge, nearly all recent meta-path based recommendation researches are focusing on explicit recommendation and geared towards predicting user-item ratings. Though, We are not able to see much research happening on the implicit recommendation front, which,  having a even wider use in the real world scenario. The framework we propose is motivated on solving cold start problems on implicit predictions settings, where cold start is constantly happening scene. 
+
+
+

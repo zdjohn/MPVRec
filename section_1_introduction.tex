@@ -1,100 +1,14 @@
 \section{Introduction}
-This document is a model and instructions for \LaTeX.
-Please observe the conference page limits. 
 
-\paragraph background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
-background background background background background
+Recommender system is an indispensable technology in this big data era \cite{lu2015recommender}. It evolves around our everyday life on multiple fronts. From daily curated news feed, to online shopping portal, to music play list that we listen, and movies we watch. It help us to find personalized products or services from the ever-increasing information overloads and make our life more efficient and focused.
 
-\paragraph related research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
-research research research research research
+On the other hand, the widely popular Collaborative Filtering and Matrix based learning approach is known for the weakness in cold start problems when there is no or little historical data available for the new item, since the regression is largely depended on the user-item interaction matrix. 
 
+Heterogeneous information graph can effectively enhance the performance of recommender systems as user-item relationships can be leveraged from the heterogeneous network\cite{hamilton2017representation}. Node2vec is an effective feature learning approach using network sampling strategy, such as breadth-first sampling and depth-first sampling \cite{grover2016node2vec}. While more and more research, started to leveraging meta-path information to derive more relevant item feature presentation. 
+Many studies have shown promising results that information presented in knowledge graph can effectively improve the shortcoming \cite{hu2018leveraging} \cite{mao2016multirelational} \cite{wu2019comprehensive} around user rating predictions. 
 
-\paragraph challenge and problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
-problems problems problems problems problems
+However, there is still a large recommendation use case not being well covered in meta-path based recommendation approach, implicit recommendation. Recommendation that aimed to optimise CTR (Click Through Rate) with out leaving ratings. The use case can be much wider, such as e commerce, advertisement, and content recommendation. Most common dataset being used for recommender system research have high data qualities, while in real world the data we have for our recommendation task are much more sparse, hence more serious cold start problems. Further more, a lot of the industry such as news, jobs, real estate, are having constant cold start problems. Unfortunately, there is very little research making the $Cold Start$ as their primary objective. As a result, many theoretically sound research result, could not be fitted into real world production use. Lastly, Most of the Matrix Factorized approach are train on static dataset with little to no ability to adapt new items or users without retraining. Such limitation also add barriers for recommender system to be easily adopted to a wider usage.
 
+In this paper we propose MVRec, a novel approach that utilizing meta-path based presentation learning on heterogeneous information graph. This approach is primarily focusing on solving the cold start problems when data is continuously evolving. The model is also designed to be adaptive to newly emerged data, so that recommendation could be made even there is zero user-items interaction ever happened. Finally, our approach allow a controlled random walk by translating experts' relevancy rules into meta-path set to reduce computation intensity and improve on end result. 
 
-\paragraph paper paper contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-contributions contributions contributions contributions contributions
-
-
-\paragraph paper structure paper structurepaper structurepaper structurepaper structurepaper structurepaper structure
+The rest of this paper is constructed as follows: In Section II, we discuss the related research and relevant definition that helped our research . In Section III, we explain our framework and related algorithms. Section IV, we show our experiment design and result comparison with other models in different cold and non-cold start scenario. Lastly In Section V we discuss our finding and and explore future improve directions.
