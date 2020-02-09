@@ -1,59 +1,53 @@
-\documentclass[conference]{IEEEtran}
-\IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\usepackage{cite}
-\usepackage{mathtools, cuted}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{inputenc}
-\usepackage{amsthm}
-\usepackage{bm}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
-\usepackage{soul,color}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% For technical support please email: ykoh@wspc.com.sg (or) rajesh@wspc.com.sg %%
+%% The content, structure, format and layout of this style file is the          %%
+%% property of World Scientific Publishing Co. Pte. Ltd.                        %%
+%% Copyright 2014 by World Scientific Publishing Co.                            %%
+%% All rights are reserved.                                                     %%
+%%                                                                              %%
+%% Proceedings Trim Size: 9in x 6in                                             %%
+%% Text Area: 7.35in (include runningheads) x 4.5in                             %%
+%% Main Text is 10/13pt                                                         %%
+%% Last Modified: 24-01-2014                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\documentclass[wsdraft]{ws-procs9x6}  % to draw border line around text area
+%\documentclass[wssquare]{ws-procs9x6} % for citations in square brackets (consult your editor before picking up this style)
+\documentclass{ws-procs9x6}            % default, citations in superscript
+% \usepackage{cite}
+% \usepackage{mathtools, cuted}
+% \usepackage{amsmath,amssymb,amsfonts}
+% \usepackage{inputenc}
+% \usepackage{amsthm}
+% \usepackage{bm}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage{graphicx}
+% \usepackage{textcomp}
+% \usepackage{xcolor}
+% \usepackage{soul,color}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\renewcommand{\algorithmicrequire}{ \textbf{Input:}} %Use Input in the format of Algorithm  
-\renewcommand{\algorithmicensure}{ \textbf{Output:}} %UseOutput in the format of Algorithm 
-
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-
-\ifCLASSOPTIONcompsoc \usepackage[caption=false,font=normalsize,labelfon
-t=sf,textfont=sf]{subfig}
-\else
-\usepackage[caption=false,font=footnotesize]{subfi g}
-\fi
 \begin{document}
+\title{For proceedings contributors:\\
+Using World Scientific's WS-procs9X6\\
+document class in \LaTeX2e}
 
-\title{Conference Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
-}
+\author{A. B. Author$^*$ and C. D. Author}
 
-\author{\IEEEauthorblockN{Di Zhang, Qian Zhang, Guanquan Zhang, Jie Lu}
-\IEEEauthorblockA{\textit{Decision Systems and e-Service Intelligence Laboratory,} \\
-\textit{Centre for Artificial Intelligence}\\
-University of Technology Sydney, Australia \\
-Di.Zhang-7@student.uts.edu.au, Qian.Zhang-1@uts.edu.au \\
-Guangquan.Zhang@uts.edu.au, Jie.Lu@uts.edu.au}
-}
-
-\maketitle
+\address{University Department, University Name,\\
+City, State ZIP/Zone, Country\\
+$^*$E-mail: ab\_author@university.com\\
+www.university\_name.edu}
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
+This article explains how to use World Scientific's ws-procs9x6
+document class written in \LaTeX2e. This article was typeset using
+ws-procs9x6.cls and may be used as a template for your contribution.
 \end{abstract}
 
-\begin{IEEEkeywords}
-component, formatting, style, styling, insert
-\end{IEEEkeywords}
+\keywords{Style file; \LaTeX; Proceedings; World Scientific Publishing.}
+
+\bodymatter
 
 \input{section_1_introduction.tex}
 
@@ -65,6 +59,9 @@ component, formatting, style, styling, insert
 
 \input{section_5_conclusion.tex}
 
+
+
+% Unnumbered appendix sections can be obtained using \verb|\section*|.
 \section*{Acknowledgment}
 
 The preferred spelling of the word ``acknowledgment'' in America is without 
@@ -72,7 +69,9 @@ an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B.
 G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
 acknowledgments in the unnumbered footnote on the first page.
 
-\bibliographystyle{IEEEtran}
-\bibliography{reference}
+\bibliographystyle{ws-procs9x6} % for numbered citation & references
+% \bibliography{ref}
+
+\end{document}
 
 \end{document}

@@ -1,5 +1,20 @@
 \section{Methodology}
-Most of the time, different business have unique data characteristics. To build a recommender system, especially, require customized algorithm for model tuning.  Having a sound business domain knowledge is very helpful in better using its data, creating the performant prediction model. In this paper, we propose a framework MVRec (meta-path embedding based Recommendation) that allow recommendation models to learn item features embedding by adapting custom domain knowledge in a generic way. 
+
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/fig0.png}
+    \caption{Overview}\label{fig:fe-overview}
+\end{figure*}
+
+In this Section, we propose a framework MERec (meta-path embedding based Recommendation) that allow recommendation models to learn item features embedding by adapting custom domain knowledge in a generic way. 
+
+The key idea of our approaches is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, learning user/item latent representation jointly based on user-item interactions matrix. Our approach breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
+
+\subsection{Learning Item presentation via Meta-path Based Random Walk}\label{3MF}
+
+For items such as movies, books, music, there are a number of factors impacting users' decision. Instead of taking the one-hot encoding approach for category value. We first propose to treat different categorical information as separate node types. 
+By leveraging domain knowledge we can form a heterogeneous information graph and sets of user defined meta-path for item-item similarities learning. 
+
 
 \begin{figure*}[!t]
     \centering
@@ -7,28 +22,10 @@ Most of the time, different business have unique data characteristics. To build 
     \caption{heterogeneous information graph based on item features}\label{fig:fe-graph}
 \end{figure*}
 
-One of the key idea of our approaches is inspired by recent research on graph-based embedding (reference) Instead of using random walk to learn low-dimensional item feature presentation, our approach introducing a pre-defined set of meta-path to create user interfered bias to control the walk random process from one node to another in HIN. The benefit of such practice can be review from 2 different fronts: 
-
-\begin{enumerate}
-    \item Intuitively, introducing user-defined sets of meta-path, allows the model to accommodate user background knowledge into the random walk process. This can prevent over-fitting on some common nodes that overcrowded by connections. i.e. comedy is the top genre in movie-lens data sets. Over 20 \% of the movie are comedies. However, most of the time user would not choose a movie purely based on genre alone.
-    \item Categorical data is common but tricky to adapt into model learning. A common practice of handling categorical data is using one-hot (reference) encoding. However, it can quickly become a problem, when the categorical data has a lot of unique values. For example, the movie-lens dataset X actors, Y directors, X genre and so on. Using one-hot encoding normally leads to super large matrix size and high data sparsity.
-\end{enumerate}
-
-Consequently, as the item embedding is learned based on item features rather than depending on user-item interactions. This allows model to handle cold start problem and data sparsity problem effectively. 
-
-
-
-\subsection{Meta-path Based Random Walk}\label{3MF}
-
-For items such as movies, books, music, there are a number of factors impacting users' decision. 
-
-Instead of taking the one-hot encoding approach, treating each category value as a feature column. We propose to treat each feature category as an independent node type. Putting different feature type nodes and items together, here we formed a heterogeneous information graph. 
-
-Next, we define sets of meta-path that is known to be effective factors for item-item similarities, based on the expert domain knowledge or based on feature analysis, such as, PCA for computation reduction purposes. For example, movie choice is closely linked to directors and its casts. Thus $Movie \rightarrow Director \leftarrow Movie$, $Movie \rightarrow Actor/Actress \leftarrow Movie$  can be very important meta-path in deciding how similar 2 movies are. We use those insights as a guideline to from a heterogeneous information graph based on item features. As shown in Fig. \ref{fig:fe-graph}
-
+For example, movie choice is closely linked to directors and its casts. Thus $Movie \rightarrow Director \leftarrow Movie$, $Movie \rightarrow Actor/Actress \leftarrow Movie$  can be very important meta-path in deciding how similar 2 movies are. We use those insights as a guideline to from a heterogeneous information graph based on item features. As shown in Fig \ref{fig:fe-graph}.
 Each meta-path can derive a item-item similarity matrix $\mathbb{R}_i(\mathcal{P}_i)$, each different meta-path can be regarded as bias toward different feature aspects, so items co-occurrence can be learned separately under different meta-path.
-as a result, item-item similarity score can be calculated by normalized meta-path similarity times meta-path weight.
 
+as a result, item-item similarity score can be calculated by normalized meta-path similarity times meta-path weight.
 \begin{equation}\label{itemsim}
     \mathcal{S}(v_i,v_j) = 
     \begin{cases}
@@ -68,17 +65,15 @@ we enable skip-gram to learn the presentation of given node $v$:
 
 $log p({c|v;\theta}))$ is the softmax function as defined in \cite{mikolov2013distributed} \cite{mikolov2013efficient}. In our approach, we substitute $log p({c|v;\theta}))$ with softmax function defined in equation \ref{softmaxwalker}. $c$ is denoted as $context$, in graph structure setting, $c$ is the neighboring nodes of given node $v$, i.e. $N(v)$. 
 
-Finally, we introduce 3 hyper parameters to learn the item vector representation. $d$ for dimension size, $x$ for number of walks, and $l$ for depth of each random walk. 
+During the item embedding learning, we introduce 3 hyper parameters to learn the item vector representation. $d$ for dimension size, $x$ for number of walks, and $l$ for depth of each random walk.
 
-
-\subsection{Pure Cold Start: MVRec-PCC}\label{3PCC}
-One of common real world recommendation scenario is recommending new item to potential audiences/customers. For example, product launch, movie premier. Listings portal, such as, job listings (e.g. LinkedIn) and real estate listings (Zillow) faces constant pure cold start problem, where historical user-item interaction is not available to learn. 
+\subsection{User latent feature learning based on item embedding}\label{3PCC}
 
 In order to solve pure cold start problem, commonly feature based (content based) are one of limited way to make recommendation. 
-Additionally, we adopt Pearson Correlation Coefficient (PCC) to be in combination with MVRec through the recommendation process. 
+Additionally, we adopt Pearson Correlation Coefficient (PCC) to be in combination with MERec through the recommendation process. 
 PCC is a popular measurement approach as defined in equation \ref{pcc}, unlike Cosine Similarity, PCC takes the difference of mean and variance between users' rating scale into account.
 
-\begin{strip}
+
     \begin{equation}\label{pcc}
         S_{u_i,u_j}^{PCC} = 
         \dfrac{
@@ -92,7 +87,6 @@ PCC is a popular measurement approach as defined in equation \ref{pcc}, unlike C
             \sqrt{\sum_{v \in V_{u_i} \cap V_{u_j}} (r_{u_j,v}-\overline{r_{u_j}})^2}
         }
     \end{equation}
-\end{strip}
 
 accordingly, we can normalized the user-item rating based on normalized user rating $\overline{u}$ overall:
 \begin{equation}\label{pcc}
@@ -101,29 +95,29 @@ accordingly, we can normalized the user-item rating based on normalized user rat
 
 Consequently, we get the top ranked user by calculating as following:
 
-\begin{algorithm}
-    \caption{ranked users list}
-    \begin{algorithmic}[1] 
-    \REQUIRE~~\\ %Input
-    New Item: $v$\\
-    Existing user item ratings: ${R_{mxn}}$\\
-    Items vectors: $\mathcal{V}$\\
-    Top X nearest items: $X$\\
-    Top K ranked users list rank: $K$\\
-    \ENSURE~~\\ %Output
-    \STATE Compute nearest items $TopN(v,\mathcal{V})$ based on $\mathcal{V}$ and $v$
-    \STATE \textbf{for} x=1 : X
-    \STATE \quad Compute normalized rating per user of $v_x$
-    \STATE \quad Ranked users $RankedList(v_x) \leftarrow (u_i, NS(r_{u_i,v_x}))$
-    \STATE \quad $TopKList(v) \leftarrow$ Top $K$ (user,rating) in $RankedList(v_x)$
-    \STATE $RankedList(v)$ = \textbf{from} $TopKList(v)$ \textbf{group by} user \textbf{select} (user,$\sum{rating}$) \textbf{order by} $\sum{rating}$
-    \RETURN Top K of $RankedList(v)$
-    \end{algorithmic}\label{alg:1}
-\end{algorithm}
+% \begin{algorithm}
+%     \caption{ranked users list}
+%     \begin{algorithmic}[1] 
+%     \REQUIRE~~\\ %Input
+%     New Item: $v$\\
+%     Existing user item ratings: ${R_{mxn}}$\\
+%     Items vectors: $\mathcal{V}$\\
+%     Top X nearest items: $X$\\
+%     Top K ranked users list rank: $K$\\
+%     \ENSURE~~\\ %Output
+%     \STATE Compute nearest items $TopN(v,\mathcal{V})$ based on $\mathcal{V}$ and $v$
+%     \STATE \textbf{for} x=1 : X
+%     \STATE \quad Compute normalized rating per user of $v_x$
+%     \STATE \quad Ranked users $RankedList(v_x) \leftarrow (u_i, NS(r_{u_i,v_x}))$
+%     \STATE \quad $TopKList(v) \leftarrow$ Top $K$ (user,rating) in $RankedList(v_x)$
+%     \STATE $RankedList(v)$ = \textbf{from} $TopKList(v)$ \textbf{group by} user \textbf{select} (user,$\sum{rating}$) \textbf{order by} $\sum{rating}$
+%     \RETURN Top K of $RankedList(v)$
+%     \end{algorithmic}\label{alg:1}
+% \end{algorithm}
 
 In Section \ref{4_experiment}, we would show more detailed comparison results with traditional categorical one-hot encoding approach
 
-\subsection{Sparse Recommendation: MVRec-BPR}\label{3BPR}
+\subsection{Sparse Recommendation: MERec-BPR}\label{3BPR}
 One of the other common cold start problem, that we commonly facing is sparse data. Matrix Factorization or CF based approach, try to learn user and item presentation (i.e. $U, V$) in a latent space jointly, normally suffers from data sparsity problem.
 
 
@@ -141,6 +135,6 @@ We use BPR as our optimization objective:
 \end{equation}
 
 
-Based on the experiment result in Section \ref{4_experiment}, we see MVRec out performs widely used CF+ BPR by a large margin in sparse dataset. It also gained equivalent or minor advantage when the dataset is less sparse in non-cold start settings.
+Based on the experiment result in Section \ref{4_experiment}, we see MERec out performs widely used CF+ BPR by a large margin in sparse dataset. It also gained equivalent or minor advantage when the dataset is less sparse in non-cold start settings.
 
 
