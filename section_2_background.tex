@@ -1,24 +1,24 @@
-\section{Related Works}
-Graph based presentation learning is a actively researched topic in areas such as node classification, clustering, and similarity search. As intuitively, objects similarity can be measured based on node distance and density of given graph/sub-graph. Studies such as P-PageRank \cite{bahmani2010fast}, SimRank \cite{jeh2002simrank}, leverage homogeneous network structures. While research like PathSim \cite{sun2011pathsim}, HeteSim \cite{shi2014hetesim} manages to taking different types of objects and links in to data mining process, so that different semantic meaning across different types of nodes can be learned respectively. With the advancement of NLP research, i.e. Word2Vec \cite{mikolov2013efficient}. Embedding methods are introduced into node presentation learning. For example, node2vec \cite{grover2016node2vec} adopts CBOW and SkipGram into random walk process. Subsequently, Metapath2Vec \cite{dong2017metapath2vec} introduced a guided random walk approach to help reduce the bias of random walk, by introducing a set of predefined meta-path. 
+%!TEX root = ./main.tex
+% \section{Related Works}
+% Graph based presentation learning is a actively researched topic in areas such as node classification, clustering, and similarity search. As intuitively, objects similarity can be measured based on node distance and density of given graph/sub-graph. Studies such as P-PageRank \cite{bahmani2010fast}, SimRank \cite{jeh2002simrank}, leverage homogeneous network structures. While research like PathSim \cite{sun2011pathsim}, HeteSim \cite{shi2014hetesim} manages to taking different types of objects and links in to data mining process, so that different semantic meaning across different types of nodes can be learned respectively. With the advancement of NLP research, i.e. Word2Vec \cite{mikolov2013efficient}. Embedding methods are introduced into node presentation learning. For example, node2vec \cite{grover2016node2vec} adopts CBOW and SkipGram into random walk process. Subsequently, Metapath2Vec \cite{dong2017metapath2vec} introduced a guided random walk approach to help reduce the bias of random walk, by introducing a set of predefined meta-path. 
 
-Since `The Netflix Prize' \cite{bennett2007netflix}. Memory based CF measures similarity by using Pearson Correlation or vector cosine similarities to derive predictions though a aggregated nearest neighbor mechanism. Model based CF leverage data mining techniques by learning user/item latent features. As knowledge graph and especially Graph Neural Networks gaining traction \cite{wu2019comprehensive}, there are a number of HIN based techniques being developed such as item2vec \cite{Barkan2016}, entity2vec \cite{palumbo2017entity2rec}. and HErec \cite{shi2018heterogeneous} towards user-item ratings predictions. Though, We are not able to see much research results on the implicit recommendation front. 
+% Since `The Netflix Prize' \cite{bennett2007netflix}. Memory based CF measures similarity by using Pearson Correlation or vector cosine similarities to derive predictions though a aggregated nearest neighbor mechanism. Model based CF leverage data mining techniques by learning user/item latent features. As knowledge graph and especially Graph Neural Networks gaining traction \cite{wu2019comprehensive}, there are a number of HIN based techniques being developed such as item2vec \cite{Barkan2016}, entity2vec \cite{palumbo2017entity2rec}. and HErec \cite{shi2018heterogeneous} towards user-item ratings predictions. Though, We are not able to see much research results on the implicit recommendation front. 
 
-Hence, we propose MERec, a framework that is motivated on solving cold start problems on implicit predictions using HIN. 
+% Hence, we propose MERec, a framework that is motivated on solving cold start problems on implicit predictions using HIN. 
 
-
-\section{Preliminary Definitions}\label{3PD}
+\section{Preliminaries}\label{3PD}
 Following definitions are used for describe our approach.
 
 \begin{definition}[Heterogeneous Information Graph]
-A information graph is $G = (V,E)$, where $V$ is the set of nodes (or entities) of the graph. $E$ is the set of edges connecting the nodes in $V$, $E \subset V \times V$. \newline
+An information graph is $G = (V,E)$, where $V$ is the set of nodes (or entities) of the graph. $E$ is the set of edges connecting the nodes in $V$, $E \subset V \times V$.
+
 Two mapping functions: Entity type mapping function $\phi$: $V \rightarrow A$, and link type mapping function $\varphi$: $E \rightarrow R$, where $A$ and $R$ denote the sets of predefined entity and link types, and $|A| > 1$ or $|R| > 1$ indicating that there are more than one type.
 \end{definition}
 
 Graph schema indicates how different types of entities link with each other. It serves as a template to describe the structure as well as the semantic relationship between object types.
-
 \begin{definition}[Meta-Path]\label{def:metaPath}
 A Meta-Path $\mathcal{P}$ is a path defined on the  graph schema $T_G = (A, R)$. \newline
-Meta-Path $\mathcal{P}$ is denoted as $A_1 \xrightarrow{\text{r1}} A_2 \xrightarrow{\text{r2}} ... \xrightarrow{\text{rn}} A_n$. 
+Meta-Path $\mathcal{P}$ is denoted as $A_1 \xrightarrow{\text{r1}} A_2 \xrightarrow{\text{r2}} \dots \xrightarrow{\text{rn}} A_n$. 
 
 Relationship $R$ is denoted as $r1 \bullet r2 \bullet ... rn$ for different types of relationship between different types of entity nodes, where $\bullet $ denotes composition operator or relations.
 \end{definition}
