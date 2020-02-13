@@ -71,13 +71,17 @@ After having feature embedding learned. Instead of learning $U, V$ jointly, we r
 We use Bayesian Probability Ranking as our optimization objective:
 
 \begin{equation}
-    arg max (u_i \cdot Vec(v)-u_j \cdot Vec(v)) - \dfrac{\lambda}{2}tr(U^TU)
+    arg max
+    \sum\limits_{\substack{v \in V}}
+    (u_i \cdot Vec(v)-u_j \cdot Vec(v)) - \dfrac{\lambda}{2}tr(U^TU)
 \end{equation}
 
 Where $u_i \cdot Vec(v)$ is a positive interaction between item $v$ and user $i$, while $u_j$ is a randomly selected negative sample.
 A fixed item embedding, also means during the training process user matrix is trained to fit the user-item interaction based on the item embedding. 
+This means users representation is optimized independently based on item-feature embedding. As a result, the end user-item similarly score are equally effective for both observed and user-item pairs and brand new items. This characteristic ensures the final result to be effective on data sparsity problem as well as pure cold start problem.
 
-Consequently, this also mean users representation is optimized against item latent feature columns. hence, the end user-item similarly score are equally effective for both observed user-item pairs and brand new items. this characteristic ensures the final result to be effective on data sparsity problem as well as pure cold start problem.
+Finally, we rank user candidate based on a dot product between trained user vector and item embedding vector. $ score = u \cdot Vec(v)$
+
 
 
 % Based on the experiment result in Section \ref{4_experiment}, we see MERec out performs widely used CF+BPR by a large margin. It also gained equivalent or minor advantage when the dataset is less sparse in non-cold start settings.
