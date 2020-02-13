@@ -11,19 +11,15 @@ Following definitions are used for describe our approach.
 
 \begin{definition}[Heterogeneous Information Graph]
 An information graph is $G = (V,E)$, where $V$ is the set of nodes (or entities) of the graph. $E$ is the set of edges connecting the nodes in $V$, $E \subset V \times V$.
-
-Two mapping functions: Entity type mapping function $\phi$: $V \rightarrow A$, and link type mapping function $\varphi$: $E \rightarrow R$, where $A$ and $R$ denote the sets of predefined entity and link types, and $|A| > 1$ or $|R| > 1$ indicating that there are more than one type.
+Entity and link type mapping $\phi$: $V \rightarrow A$, $\varphi$: $E \rightarrow R$, where $A$ and $R$ denote the sets of predefined entity and link types, and $|A| > 1$ or $|R| > 1$ indicating that there are more than one type of nodes and inter nodes relationships.
 \end{definition}
 
-Graph schema indicates how different types of entities link with each other. It serves as a template to describe the structure as well as the semantic relationship between object types.
 \begin{definition}[Meta-Path]\label{def:metaPath}
-A Meta-Path $\mathcal{P}$ is a path defined on the  graph schema $T_G = (A, R)$. \newline
+A Meta-Path $\mathcal{P}$ is a path defined on the graph schema $T_G = (A, R)$. \newline
 Meta-Path $\mathcal{P}$ is denoted as $A_1 \xrightarrow{\text{r1}} A_2 \xrightarrow{\text{r2}} \dots \xrightarrow{\text{rn}} A_n$. 
 
 Relationship $R$ is denoted as $r1 \bullet r2 \bullet ... rn$ for different types of relationship between different types of entity nodes, where $\bullet $ denotes composition operator or relations.
 \end{definition}
-
-For Meta-Path $\mathcal{P}_i$ shares same graph schema, there could also be multiple path $p$ connecting source entity $a_i$ to target ${a}_{i+1}$. Each path $p$ inside Meta-Path $\mathcal{P}_i$ is a path instance, $p \in \mathcal{P}_i$. The number of path instances $p$ between $a_i$ and $\bm{a}_\text{i+1}$, is called path count. Reverse Meta-Path $\mathcal{P}^{'}$ is the reversed relation sequence of $\mathcal{P}_i$, if $\mathcal{P}^{'}$ is the reverse path of $\mathcal{P}$ in $T_G = (A, R)$, reverse path is denoted as $\mathcal{P}^\text{-1}$. \newline
 
 Meta-Path $\mathcal{P}_1: A_1 \xrightarrow{r_1} A_2$ is the Meta-Path connects source entity type $A_1$ and target $A_2$.
 Similarly, $\mathcal{P}_2: A_2 \xrightarrow{r_2} A_3$, $\mathcal{P}_2$ is the Meta-Path between source entity type $A_\text{2}$ and target entity type $A_\text{3}$.

@@ -4,10 +4,10 @@
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=0.8\textwidth]{figs/fig0.png}
-    \caption{Overview}\label{fig:fe-overview}
+    \caption{workflow of MERec}\label{fig:fe-overview}
 \end{figure*}
 
-In this Section, we propose MERec that allows recommendation models to learn item features embedding by adapting custom domain knowledge in a generic way. 
+In this Section, we propose MERec that meta-path based embedding and Bayesian Probability Ranking to overcome cold start problem. 
 
 The key idea of our approaches is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, learning user/item latent representation jointly based on user-item interactions matrix. Our approach breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
 
@@ -16,14 +16,14 @@ The key idea of our approaches is inspired by recent research on graph-based emb
 For items such as movies, books, music, there are a number of factors impacting users' decision. Instead of taking the one-hot encoding approach for category value. We first propose to treat different categorical information as separate node types. 
 By leveraging domain knowledge we can form a heterogeneous information graph and sets of user defined meta-path for item-item similarities learning. 
 
+For example, movie choice is closely linked to directors and its casts. Thus $Movie \rightarrow Director \leftarrow Movie$, $Movie \rightarrow Actor/Actress \leftarrow Movie$  can be very important meta-path in deciding how similar 2 movies are. We use those insights as a guideline to define meta-path from a heterogeneous information graph for item features embedding. As shown in Fig \ref{fig:fe-graph}.
+Each meta-path can derive a item-item similarity matrix $\mathbb{R}_i(\mathcal{P}_i)$, each different meta-path can be regarded as bias toward different feature aspects, so items co-occurrence can be learned separately under different meta-path.
+
 \begin{figure*}[!t]
     \centering
     \includegraphics[width=0.8\textwidth]{figs/fig1.png}
     \caption{heterogeneous information graph based on item features}\label{fig:fe-graph}
 \end{figure*}
-
-For example, movie choice is closely linked to directors and its casts. Thus $Movie \rightarrow Director \leftarrow Movie$, $Movie \rightarrow Actor/Actress \leftarrow Movie$  can be very important meta-path in deciding how similar 2 movies are. We use those insights as a guideline to from a heterogeneous information graph based on item features. As shown in Fig \ref{fig:fe-graph}.
-Each meta-path can derive a item-item similarity matrix $\mathbb{R}_i(\mathcal{P}_i)$, each different meta-path can be regarded as bias toward different feature aspects, so items co-occurrence can be learned separately under different meta-path.
 
 as a result, item-item similarity score can be calculated by normalized meta-path similarity times meta-path weight.
 \begin{equation}\label{itemsim}
@@ -57,20 +57,27 @@ where$\log p({c|v;\theta}))$ is defined as above. $c$ is denoted as $context$, i
 
 During the item embedding learning, we introduce 3 hyper parameters to learn the item vector representation. $d$ for dimension size, $x$ for number of walks, and $l$ for depth of each random walk.
 
-By the end of this step, what we have is the item representation being projected in to a latent embedding space. This can effectively reduce the complexity and sparsity issue comparing to content based approach. In Section \ref{4_experiment}, we would show more detailed comparison results with traditional categorical one-hot encoding approach
+By the end of this step, what we have is the item representation being projected in to a latent embedding space with reduced the complexity and sparsity issue comparing to content based approach. In Section \ref{4_experiment}, we would show more detailed comparison results with traditional categorical one-hot encoding approach
 
 \subsection{Step 2: User Latent Feature Learning}\label{3PCC}
 After having feature embedding learned. Instead of learning $U, V$ jointly, we replace $V$ with the meta-path based item embedding vectors $Vec(v)$. This approach provides several benefits:
+
 \begin{enumerate}
     \item Reducing learning complexities.
     \item Taking both item features and user-item interactions into account.
     \item $Vec(v)$ is not impacted even though user-item interactions are sparse.
 \end{enumerate}
 
-We use BPR as our optimization objective:
+We use Bayesian Probability Ranking as our optimization objective:
+
 \begin{equation}
     arg max (u_i \cdot Vec(v)-u_j \cdot Vec(v)) - \dfrac{\lambda}{2}tr(U^TU)
 \end{equation}
 
-A fixed item embedding, also means during the training process user matrix is trained to fit based on the item matrix value. Consequently, this also mean users representation is optimized against item latent feature columns. hence, the end user-item similarly score are equally effective for both observed user-item pairs and brand new items. this characteristic ensures the final result to be effective on data sparsity problem as well as pure cold start problem.
+Where $u_i \cdot Vec(v)$ is a positive interaction between item $v$ and user $i$, while $u_j$ is a randomly selected negative sample.
+A fixed item embedding, also means during the training process user matrix is trained to fit the user-item interaction based on the item embedding. 
+
+Consequently, this also mean users representation is optimized against item latent feature columns. hence, the end user-item similarly score are equally effective for both observed user-item pairs and brand new items. this characteristic ensures the final result to be effective on data sparsity problem as well as pure cold start problem.
+
+
 % Based on the experiment result in Section \ref{4_experiment}, we see MERec out performs widely used CF+BPR by a large margin. It also gained equivalent or minor advantage when the dataset is less sparse in non-cold start settings.
