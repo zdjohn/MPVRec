@@ -9,7 +9,7 @@
 
 In this Section, we propose MERec that meta-path based embedding and Bayesian Probability Ranking to overcome cold start problem. 
 
-The key idea of our approach is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, which learns user/item latent representation jointly based on user-item interactions matrix. Our one breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig. \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
+The key idea of our approach is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, which learns user/item latent representation jointly based on user-item interactions matrix.\cite{rendle2012bpr} Our one breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig. \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
 
 \subsection{Step 1: Item Embedding via Meta-path Based Random Walk}\label{3MF}
 
@@ -46,7 +46,7 @@ Given a heterogeneous graph $G = (V,E)$, and a meta-path set $[\mathcal{P}_1, \m
 \end{equation}
 where $t$ is denoted as $t^th$ steps, as the walker traversing through the graph and $p({N^{t+1}(v_{i}^t)})$ is a $softmax$ function on top of the neighbors of node $v_{i}^t$ as $p({N^{t+1}(v_{i}^t)}) = \frac{Exp(\mathcal{S}(v_i,v_j))}{\sum\limits_{\substack{n=1}}^{n} {Exp(\mathcal{S}(v_i,v_j)})}$.
 
-We enable skip-gram to learn the presentation of given node $v$:
+We enable skip-gram \cite{mikolov2013distributed} to learn the presentation of given node $v$:
 \begin{equation}\label{skipgram}
     arg max
     \sum\limits_{\substack{v \in V}}
