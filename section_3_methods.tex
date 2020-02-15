@@ -9,7 +9,7 @@
 
 In this Section, we propose MERec that meta-path based embedding and Bayesian Probability Ranking to overcome cold start problem. 
 
-The key idea of our approaches is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, learning user/item latent representation jointly based on user-item interactions matrix. Our approach breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig. \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
+The key idea of our approach is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, which learns user/item latent representation jointly based on user-item interactions matrix. Our one breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig. \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
 
 \subsection{Step 1: Item Embedding via Meta-path Based Random Walk}\label{3MF}
 
@@ -57,7 +57,7 @@ where$\log p({c|v;\theta}))$ is defined as above. $c$ is denoted as $context$, i
 
 During the item embedding learning, we introduce 3 hyper parameters to learn the item vector representation. $d$ for dimension size, $x$ for number of walks, and $l$ for depth of each random walk.
 
-By the end of this step, what we have is the item representation being projected in to a latent embedding space with reduced the complexity and sparsity issue comparing to content based approach. In Section \ref{4_experiment}, we would show more detailed comparison results with traditional categorical one-hot encoding approach
+By the end of this step, what we have is the item representation being projected in to a latent embedding space with reduced the complexity and sparsity issue comparing to content based approach. In Section \ref{4_experiment}, we will show more detailed comparison with categorical one-hot encoding.
 
 \subsection{Step 2: User Latent Feature Learning}\label{3PCC}
 After having feature embedding learned. Instead of learning $U, V$ jointly, we replace $V$ with the meta-path based item embedding vectors $Vec(v)$. This approach provides several benefits:

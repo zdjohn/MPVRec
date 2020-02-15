@@ -1,6 +1,6 @@
 %!TEX root = ./main.tex
 \section{Experiments and Results}\label{4_experiment}
-We have run a number of experiments based on several common real world scenarios, and we compared our approach with other popular methods through the experiments.
+We have run a number of experiments based on several common real world scenarios, and we compared our approach with other popular recommendation approach through the experiments.
 % \begin{itemize}
 %     \item How effective MERec performs in $Pure$ $Cold$ and $Sparse dataset$.
 %     \item How dose MERec compare with other state-of-the-art methods
@@ -11,7 +11,7 @@ Additionally, 5 relationships are defined as edges, which are $Movie-Users$, $Mo
 
 For the simplicity of the experiment, we weigh all of our meta-path equally, as it is sufficient in illustrating the effectiveness of MERec. On the other hand, we do acknowledge that, those hyper-parameters can be further tuned to improve the result to tailor different problem domains. 
 
-For pure cold-start problem, we split our data set based on time. We use movies prior 2008 as training data set (6724 movies), and 2008~2011 as testing data set (193 movies). The choice of meta-path in this experiment are: $Movie-Tags-Movie$, $Movie-Actors-Movie$, $Movie-Directors-Movie$, and $Movie-Genres-Movie$. In this problem setting, we compare our result with common One-Hot encoding approach for categorical data in content based recommendation approach.
+For pure cold-start problem, we split our data set based on time. We use movies prior 2008 as training data set (6724 movies), and 2008~2011 as testing data set (193 movies). The choice of meta-path in this experiment are: $Movie-Tags-Movie$, $Movie-Actors-Movie$, $Movie-Directors-Movie$, and $Movie-Genres-Movie$. In this problem setting, we compare our result with common One-Hot encoding for categorical data in content based recommendation approach.
 
 For data sparsity problem, we split data in two sparse ratios to evaluate the effectiveness of MERec performance. we also compares it with CF+BPR, which is one of the most popular and effective algorithms. For sparse data scenarios, the data density set to be \text{1.1\%}, while in non-sparse experiment settings, the density is set at \text{2.3\%}.
 
@@ -33,7 +33,7 @@ In pure cold start case, as shown in Table \ref{tbl1}, the MERec is far superior
     % $^{\text a}$ M.E. stands for meta-path embedding\\
     % \end{tabnote}
     \end{table}
-As shown in the result, when dealing with complex categorical data. EMRec had shown a significant edge comparing with one-hot encoding approach, with near doubling both precision and recall in pure cold start problem settings.
+As shown in the result, when dealing with complex categorical data. EMRec shows a significant edge comparing with one-hot encoding approach, yielding near doubling both precision and recall in pure cold start problem settings.
 
 We run experiment on both sparse data split as well as non-sparse data split. we see the comparison as below in Table \ref{tbl2}: 
 \begin{table}
