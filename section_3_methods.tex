@@ -9,14 +9,14 @@
 
 In this Section, we propose MERec that meta-path based embedding and Bayesian Probability Ranking to overcome cold start problem. 
 
-The key idea of our approaches is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, learning user/item latent representation jointly based on user-item interactions matrix. Our approach breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
+The key idea of our approaches is inspired by recent research on graph-based embedding \cite{dong2017metapath2vec}. Unlike traditional matrix based approach, learning user/item latent representation jointly based on user-item interactions matrix. Our approach breaks down item and user latent matrix learning through 2 separate steps. as illustrated in Fig. \ref{fig:fe-overview}. Item embedding is first learned based on item and its features nodes within HIN with a user defined meta-path sets for the moderating its random walk process. Then user latent feature is trained though Factorization Machine, which is optimized by using Bayesian Probability Ranking.
 
 \subsection{Step 1: Item Embedding via Meta-path Based Random Walk}\label{3MF}
 
 For items such as movies, books, music, there are a number of factors impacting users' decision. Instead of taking the one-hot encoding approach for category value. We first propose to treat different categorical information as separate node types. 
 By leveraging domain knowledge we can form a heterogeneous information graph and sets of user defined meta-path for item-item similarities learning. 
 
-For example, movie choice is closely linked to directors and its casts. Thus $Movie \rightarrow Director \leftarrow Movie$, $Movie \rightarrow Actor/Actress \leftarrow Movie$  can be very important meta-path in deciding how similar 2 movies are. We use those insights as a guideline to define meta-path from a heterogeneous information graph for item features embedding. As shown in Fig \ref{fig:fe-graph}.
+For example, movie choice is closely linked to directors and its casts. Thus $Movie \rightarrow Director \leftarrow Movie$, $Movie \rightarrow Actor/Actress \leftarrow Movie$  can be very important meta-path in deciding how similar 2 movies are. We use those insights as a guideline to define meta-path from a heterogeneous information graph for item features embedding. As shown in Fig. \ref{fig:fe-graph}.
 Each meta-path can derive a item-item similarity matrix $\mathbb{R}_i(\mathcal{P}_i)$, each different meta-path can be regarded as bias toward different feature aspects, so items co-occurrence can be learned separately under different meta-path.
 
 \begin{figure*}[!t]
